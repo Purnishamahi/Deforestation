@@ -37,7 +37,7 @@ main = scotty 3000 $ do
     setHeader "Content-Type" "text/csv"
     raw csv
 
-  -- global forest loss
+  -- GLOBAL TREE COVER LOSS
   get "/global-loss" $ do
     rows <- liftIO loadRows
 
@@ -48,46 +48,36 @@ main = scotty 3000 $ do
 
     text (TL.pack (show (round totalLoss :: Integer)))
 
-  -- yearly aggregation
-  get "/yearly-loss" $ do
+  -- GLOBAL FIRE LOSS
+  get "/global-fire-loss" $ do
     rows <- liftIO loadRows
 
-    let pairs =
-          map (\r ->
-                let cols = splitComma r
-                in (cols !! 2, read (cols !! 3) :: Double)
-              ) rows
+    let losses =
+          map (\r -> read (splitComma r !! 4) :: Double) rows
 
-    let grouped =
-          map (\g -> (fst (head g), sumLoss (map snd g)))
-          (groupBy (\a b -> fst a == fst b) (sortOn fst pairs))
+    let totalLoss = sumLoss losses
 
-    text (TL.pack (show grouped))
+    text (TL.pack (show (round totalLoss :: Integer)))
 
-  -- country aggregation
-  get "/country-loss" $ do
+  -- GLOBAL CO2 EMISSIONS
+  get "/global-emissions" $ do
     rows <- liftIO loadRows
 
-    let pairs =
-          map (\r ->
-                let cols = splitComma r
-                in (cols !! 1, read (cols !! 3) :: Double)
-              ) rows
+    let emissions =
+          map (\r -> read (splitComma r !! 5) :: Double) rows
 
-    let grouped =
-          map (\g -> (fst (head g), sumLoss (map snd g)))
-          (groupBy (\a b -> fst a == fst b) (sortOn fst pairs))
+    let total = sumLoss emissions
 
-    text (TL.pack (show grouped))
+    text (TL.pack (show (round total :: Integer)))
 
-  -- top 10 countries with highest loss
+  -- TOP 10 COUNTRIES BY LOSS
   get "/top10-loss" $ do
     rows <- liftIO loadRows
 
     let pairs =
           map (\r ->
                 let cols = splitComma r
-                in (cols !! 1, read (cols !! 3) :: Double)
+                in (cols !! 1, read (cols !! 5) :: Double)
               ) rows
 
     let grouped =
