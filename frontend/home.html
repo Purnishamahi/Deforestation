@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Forest Loss Analytics</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI, sans-serif;
+background:#f4f6f5;
+}
+
+/* HEADER */
+
+header{
+background:#1b4332;
+color:white;
+padding:18px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:30px;
+font-size:15px;
+}
+
+/* HERO */
+
+.hero{
+height:520px;
+background:url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e") center/cover no-repeat;
+display:flex;
+align-items:center;
+padding-left:80px;
+position:relative;
+color:white;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+}
+
+.hero-content{
+position:relative;
+max-width:600px;
+}
+
+.hero h1{
+font-size:48px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:18px;
+line-height:1.6;
+}
+
+/* CARD CONTAINER */
+
+.container{
+padding:60px;
+display:flex;
+gap:40px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+/* CARD */
+
+.card{
+width:380px;
+border-radius:15px;
+overflow:hidden;
+background:linear-gradient(135deg,#ffffff,#f3f7f5);
+box-shadow:0 12px 30px rgba(0,0,0,0.08);
+transition:all 0.35s ease;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 18px 40px rgba(0,0,0,0.15);
+}
+
+/* CARD IMAGE */
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.card-content{
+padding:28px;
+}
+
+.card h2{
+margin:0 0 12px 0;
+font-size:24px;
+color:#1b4332;
+}
+
+.card p{
+color:#5f6f68;
+line-height:1.6;
+}
+
+/* VALUE */
+
+.value{
+font-size:34px;
+font-weight:700;
+color:#2d6a4f;
+margin-top:15px;
+}
+
+/* BUTTON */
+
+.btn{
+display:inline-block;
+margin-top:18px;
+padding:10px 20px;
+border-radius:30px;
+background:#7fbf4d;
+color:white;
+text-decoration:none;
+font-size:14px;
+}
+
+.btn:hover{
+background:#6aa53f;
+}
+
+/* FOOTER */
+
+footer{
+background:#1b4332;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+<h2>🌍 Forest Loss Analytics</h2>
+
+<nav>
+
+<a href="home.html">Home</a>
+<a href="globalloss.html">Global Loss</a>
+<a href="globalemission.html">Global CO₂</a>
+<a href="globalfireloss.html">Global Fire Loss</a>
+
+</nav>
+
+</header>
+
+
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Forest Monitoring Designed for Action</h1>
+
+<p>
+Explore global deforestation trends, carbon emissions,
+and fire-driven forest loss using environmental datasets
+and recursive aggregation analytics.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- CARDS -->
+
+<div class="container">
+
+
+<!-- GLOBAL LOSS -->
+
+<div class="card" id="loss">
+
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+
+<div class="card-content">
+
+<h2>Global Forest Loss</h2>
+
+<p>
+Explore worldwide tree cover loss caused by deforestation,
+logging, agriculture expansion and land-use change.
+</p>
+
+<div class="value" id="lossValue">Loading...</div>
+
+<a class="btn" href="globalloss.html">Explore Data</a>
+</div>
+
+</div>
+
+
+
+<!-- EMISSIONS -->
+
+<div class="card" id="emissions">
+
+<img src="https://images.unsplash.com/photo-1473445730015-841f29a9490b">
+
+<div class="card-content">
+
+<h2>Global CO₂ Emissions</h2>
+
+<p>
+Deforestation releases large quantities of carbon dioxide
+into the atmosphere contributing to global climate change.
+</p>
+
+<div class="value" id="emissionValue">Loading...</div>
+
+<a class="btn" href="globalemission.html">View Emissions</a>
+
+</div>
+
+</div>
+
+
+
+<!-- FIRE LOSS -->
+
+<div class="card" id="fire">
+
+<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
+
+<div class="card-content">
+
+<h2>Global Fire Loss</h2>
+
+<p>
+Forest fires contribute significantly to global tree cover
+loss and environmental degradation across many regions.
+</p>
+
+<div class="value" id="fireValue">Loading...</div>
+
+<a class="btn" href="globalfireloss.html">View Fire Data</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<footer>
+
+<p>Global Forest Monitoring Dashboard | Data Source: Global Forest Watch</p>
+
+</footer>
+
+
+
+<script>
+
+/* GLOBAL LOSS */
+
+fetch("http://localhost:3000/global-loss")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("lossValue").innerText=data.value
+})
+
+
+/* GLOBAL EMISSIONS */
+
+fetch("http://localhost:3000/global-emissions")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("emissionValue").innerText=data.value
+})
+
+
+/* GLOBAL FIRE LOSS */
+
+fetch("http://localhost:3000/global-fire-loss")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("fireValue").innerText=data.value
+})
+
+</script>
+
+
+</body>
+</html>
