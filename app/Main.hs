@@ -8,6 +8,9 @@ import qualified Data.Text.Lazy as TL
 import Network.Wai (queryString)
 import Data.Text.Encoding (decodeUtf8)
 import Data.Aeson (object, (.=))
+import Network.Wai.Middleware.Cors
+import Network.Wai.Middleware.RequestLogger
+import Network.Wai.Middleware.Static
 
 -- split CSV by comma
 splitComma :: String -> [String]
@@ -46,11 +49,38 @@ getCountry = do
 main :: IO ()
 main = scotty 3000 $ do
 
+  -- request logging
+  middleware logStdoutDev
+
+  -- allow CORS
+  middleware $ cors (const $ Just simpleCorsResourcePolicy)
+
+  -- serve frontend folder
+  middleware $ staticPolicy (addBase "frontend")
+
   ------------------------------------------------
-  -- ROOT
+  -- HOME PAGE
   ------------------------------------------------
-  get "/" $
-    text "Deforestation API Running"
+
+  get "/" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/home.html"
+
+  get "/home.html" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/home.html"
+
+  get "/globalloss.html" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/globalloss.html"
+
+  get "/globalemission.html" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/globalemission.html"
+
+  get "/globalfireloss.html" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/globalfireloss.html"
 
   ------------------------------------------------
   -- DOWNLOAD DATASET

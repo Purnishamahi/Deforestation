@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Global CO₂ Emissions</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f6f5;
+}
+
+header{
+background:#1b4332;
+color:white;
+padding:18px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+margin-left:30px;
+text-decoration:none;
+}
+
+.container{
+padding:60px;
+text-align:center;
+}
+
+.global-chart{
+width:1100px;
+height:500px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:70px;
+}
+
+.chart-box{
+width:1000px;
+height:450px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:60px;
+}
+
+.search-box{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-bottom:40px;
+}
+
+input{
+padding:12px;
+font-size:16px;
+width:260px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:12px 18px;
+background:#e63946;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+table{
+width:900px;
+margin:auto;
+border-collapse:collapse;
+background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+th{
+background:#e63946;
+color:white;
+padding:12px;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+
+<h2>🌍 Forest Loss Analytics</h2>
+
+<nav>
+<a href="home.html">Home</a>
+<a href="globalloss.html">Global Loss</a>
+<a href="globalemission.html">Global CO₂</a>
+<a href="globalfireloss.html">Global Fire Loss</a>
+</nav>
+
+</header>
+
+
+<div class="container">
+
+<h1>Global CO₂ Emissions Analysis</h1>
+
+
+<div class="global-chart">
+
+<h2>Global CO₂ Emissions by Year</h2>
+
+<canvas id="globalChart"></canvas>
+
+</div>
+
+
+<h2>Country Level CO₂ Emissions</h2>
+
+<div class="search-box">
+
+<input type="text" id="countryInput" placeholder="Enter country name">
+
+<button onclick="loadCountry()">Search</button>
+
+</div>
+
+
+<div class="chart-box">
+
+<canvas id="countryChart"></canvas>
+
+</div>
+
+
+<table>
+
+<thead>
+<tr>
+<th>Year</th>
+<th>CO₂ Emissions</th>
+</tr>
+</thead>
+
+<tbody id="dataTable"></tbody>
+
+</table>
+
+
+</div>
+
+
+<script>
+
+let countryChart;
+
+/* GLOBAL GRAPH */
+
+fetch("http://localhost:3000/global-emissions-yearly")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let values=data.map(d=>d.emissions);
+
+new Chart(
+
+document.getElementById("globalChart"),
+
+{
+type:"bar",
+
+data:{
+labels:years,
+datasets:[{
+label:"Global CO₂ Emissions",
+data:values,
+backgroundColor:"#e63946"
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+
+);
+
+});
+
+
+function loadCountry(){
+
+let country=document.getElementById("countryInput").value;
+
+fetch(`http://localhost:3000/country-emissions/${country}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let values=data.map(d=>d.emissions);
+
+if(countryChart) countryChart.destroy();
+
+countryChart=new Chart(
+
+document.getElementById("countryChart"),
+
+{
+type:"bar",
+data:{
+labels:years,
+datasets:[{
+label:"CO₂ Emissions",
+data:values,
+backgroundColor:"#ff6b6b"
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+}
+
+);
+
+let table=document.getElementById("dataTable");
+
+table.innerHTML="";
+
+data.forEach(row=>{
+table.innerHTML+=`
+<tr>
+<td>${row.year}</td>
+<td>${row.emissions}</td>
+</tr>
+`;
+});
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

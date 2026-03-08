@@ -80,6 +80,36 @@
   (major1) == 3 && (major2) <  2 || \
   (major1) == 3 && (major2) == 2 && (minor) <= 4)
 #endif /* MIN_VERSION_wai */
+/* package wai-cors-0.2.7 */
+#ifndef VERSION_wai_cors
+#define VERSION_wai_cors "0.2.7"
+#endif /* VERSION_wai_cors */
+#ifndef MIN_VERSION_wai_cors
+#define MIN_VERSION_wai_cors(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 7)
+#endif /* MIN_VERSION_wai_cors */
+/* package wai-extra-3.1.18 */
+#ifndef VERSION_wai_extra
+#define VERSION_wai_extra "3.1.18"
+#endif /* VERSION_wai_extra */
+#ifndef MIN_VERSION_wai_extra
+#define MIN_VERSION_wai_extra(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  1 || \
+  (major1) == 3 && (major2) == 1 && (minor) <= 18)
+#endif /* MIN_VERSION_wai_extra */
+/* package wai-middleware-static-0.9.4 */
+#ifndef VERSION_wai_middleware_static
+#define VERSION_wai_middleware_static "0.9.4"
+#endif /* VERSION_wai_middleware_static */
+#ifndef MIN_VERSION_wai_middleware_static
+#define MIN_VERSION_wai_middleware_static(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  9 || \
+  (major1) == 0 && (major2) == 9 && (minor) <= 4)
+#endif /* MIN_VERSION_wai_middleware_static */
 
 /* tool gcc-13 */
 #ifndef TOOL_VERSION_gcc

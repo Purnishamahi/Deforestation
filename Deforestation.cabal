@@ -74,7 +74,10 @@ executable Deforestation
                       bytestring,
                       text,
                       aeson,
-                      wai
+                      wai,
+                      wai-cors,
+                      wai-extra,
+                      wai-middleware-static
                     
                       
     ghc-options:      -threaded
