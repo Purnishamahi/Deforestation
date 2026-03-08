@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Global CO₂ Emissions</title>
+<title>Global Fire Loss</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -43,30 +43,17 @@ color:#1b4332;
 margin-bottom:40px;
 }
 
-/* GLOBAL GRAPH */
-
 .global-chart{
-width:1100px;
-height:500px;
+width:90%;
+max-width:1200px;
+height:520px;
 margin:auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
-}
-
-/* COUNTRY GRAPH */
-
-.chart-box{
-width:1000px;
-height:450px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-margin-bottom:60px;
+position:relative;
 }
 
 .search-box{
@@ -86,7 +73,7 @@ border:1px solid #ccc;
 
 button{
 padding:12px 18px;
-background:#e63946;
+background:#ff6b35;
 color:white;
 border:none;
 border-radius:6px;
@@ -94,9 +81,20 @@ cursor:pointer;
 }
 
 button:hover{
-background:#c92d3a;
+background:#e85a2b;
 }
 
+.chart-box{
+width:90%;
+max-width:1100px;
+height:480px;
+margin:0 auto 60px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+position:relative;
+}
 .table-box{
 width:900px;
 margin:auto;
@@ -112,7 +110,7 @@ border-collapse:collapse;
 }
 
 th{
-background:#e63946;
+background:#ff6b35;
 color:white;
 padding:12px;
 }
@@ -121,10 +119,15 @@ td{
 padding:12px;
 border-bottom:1px solid #eee;
 }
+canvas{
+width:100% !important;
+height:100% !important;
+}
 
 </style>
 
 </head>
+
 
 <body>
 
@@ -133,31 +136,31 @@ border-bottom:1px solid #eee;
 <h2>🌍 Forest Loss Analytics</h2>
 
 <nav>
-
-<a href="index.html">Home</a>
+<a href="home.html">Home</a>
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
-
+<a href="top10.html">Top 10 Countries</a>
 </nav>
 
 </header>
 
+
 <div class="container">
 
-<h1>Global CO₂ Emissions Analysis</h1>
+<h1>Global Fire Loss Analysis</h1>
 
 
 <div class="global-chart">
 
-<h2>Global CO₂ Emissions by Year</h2>
+<h2>Global Fire Loss by Year</h2>
 
 <canvas id="globalChart"></canvas>
 
 </div>
 
 
-<h2>Country Level CO₂ Emissions</h2>
+<h2>Country Level Fire Loss</h2>
 
 <div class="search-box">
 
@@ -180,12 +183,10 @@ border-bottom:1px solid #eee;
 <table>
 
 <thead>
-
 <tr>
 <th>Year</th>
-<th>CO₂ Emissions</th>
+<th>Fire Loss</th>
 </tr>
-
 </thead>
 
 <tbody id="dataTable"></tbody>
@@ -196,34 +197,34 @@ border-bottom:1px solid #eee;
 
 </div>
 
+
 <script>
 
 let countryChart;
 
+
 /* GLOBAL GRAPH */
 
-fetch("http://localhost:3000/global-emissions-yearly")
+fetch(window.location.origin + "/global-fire-yearly")
 
-.then(res=>res.json())
+.then(res => res.json())
 
-.then(data=>{
+.then(data => {
 
-let years=data.map(d=>d.year);
-let values=data.map(d=>d.emissions);
+let years = data.map(d => d.year);
+let values = data.map(d => d.fire);
 
 new Chart(
-
 document.getElementById("globalChart"),
-
 {
 type:"bar",
 
 data:{
 labels:years,
 datasets:[{
-label:"Global CO₂ Emissions",
+label:"Global Fire Loss",
 data:values,
-backgroundColor:"#e63946"
+backgroundColor:"#ff6b35"
 }]
 },
 
@@ -233,60 +234,85 @@ maintainAspectRatio:false
 }
 
 }
-
 );
 
 });
 
 
+/* COUNTRY SEARCH */
+
 function loadCountry(){
 
-let country=document.getElementById("countryInput").value;
+let country=document.getElementById("countryInput").value.trim();
 
-fetch(`http://localhost:3000/country-emissions/${country}`)
+const api = window.location.origin + `/country-fire?country=${encodeURIComponent(country)}`;
 
-.then(res=>res.json())
+fetch(api)
 
-.then(data=>{
+.then(res => res.json())
+
+.then(data => {
+
+updateCountryChart(data);
+updateTable(data);
+
+});
+
+}
+
+
+/* COUNTRY GRAPH */
+
+function updateCountryChart(data){
 
 let years=data.map(d=>d.year);
-let values=data.map(d=>d.emissions);
+let values=data.map(d=>d.fire);
 
 if(countryChart) countryChart.destroy();
 
 countryChart=new Chart(
-
 document.getElementById("countryChart"),
-
 {
 type:"bar",
+
 data:{
 labels:years,
 datasets:[{
-label:"CO₂ Emissions",
+label:"Fire Loss",
 data:values,
-backgroundColor:"#ff6b6b"
+backgroundColor:"#ff9f1c"
 }]
 },
+
 options:{
 responsive:true,
 maintainAspectRatio:false
 }
-}
 
+}
 );
 
+}
+
+
+/* TABLE */
+
+function updateTable(data){
+
 let table=document.getElementById("dataTable");
+
 table.innerHTML="";
 
 data.forEach(row=>{
-table.innerHTML+=`
-<tr>
+
+let tr=document.createElement("tr");
+
+tr.innerHTML=`
 <td>${row.year}</td>
-<td>${row.emissions}</td>
-</tr>
+<td>${row.fire}</td>
 `;
-});
+
+table.appendChild(tr);
 
 });
 

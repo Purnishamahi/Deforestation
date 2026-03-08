@@ -29,8 +29,8 @@ align-items:center;
 
 nav a{
 color:white;
-margin-left:30px;
 text-decoration:none;
+margin-left:30px;
 }
 
 .container{
@@ -38,26 +38,22 @@ padding:60px;
 text-align:center;
 }
 
+h1{
+color:#1b4332;
+margin-bottom:40px;
+}
+
 .global-chart{
-width:1100px;
-height:500px;
+width:90%;
+max-width:1200px;
+height:520px;
 margin:auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
-}
-
-.chart-box{
-width:1000px;
-height:450px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-margin-bottom:60px;
+position:relative;
 }
 
 .search-box{
@@ -84,12 +80,30 @@ border-radius:6px;
 cursor:pointer;
 }
 
-table{
+.chart-box{
+width:90%;
+max-width:1100px;
+height:480px;
+margin:0 auto 60px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+position:relative;
+}
+
+.table-box{
 width:900px;
 margin:auto;
-border-collapse:collapse;
 background:white;
+padding:30px;
+border-radius:10px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
 }
 
 th{
@@ -101,6 +115,11 @@ padding:12px;
 td{
 padding:12px;
 border-bottom:1px solid #eee;
+}
+
+canvas{
+width:100% !important;
+height:100% !important;
 }
 
 </style>
@@ -119,6 +138,7 @@ border-bottom:1px solid #eee;
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
+<a href="top10.html">Top 10 Countries</a>
 </nav>
 
 </header>
@@ -127,7 +147,6 @@ border-bottom:1px solid #eee;
 <div class="container">
 
 <h1>Global CO₂ Emissions Analysis</h1>
-
 
 <div class="global-chart">
 
@@ -156,6 +175,8 @@ border-bottom:1px solid #eee;
 </div>
 
 
+<div class="table-box">
+
 <table>
 
 <thead>
@@ -169,6 +190,7 @@ border-bottom:1px solid #eee;
 
 </table>
 
+</div>
 
 </div>
 
@@ -177,24 +199,22 @@ border-bottom:1px solid #eee;
 
 let countryChart;
 
+
 /* GLOBAL GRAPH */
 
-fetch("http://localhost:3000/global-emissions-yearly")
+fetch(window.location.origin + "/global-emissions-yearly")
 
-.then(res=>res.json())
+.then(res => res.json())
 
-.then(data=>{
+.then(data => {
 
-let years=data.map(d=>d.year);
-let values=data.map(d=>d.emissions);
+let years = data.map(d => d.year);
+let values = data.map(d => d.emissions);
 
 new Chart(
-
 document.getElementById("globalChart"),
-
 {
 type:"bar",
-
 data:{
 labels:years,
 datasets:[{
@@ -203,28 +223,41 @@ data:values,
 backgroundColor:"#e63946"
 }]
 },
-
 options:{
 responsive:true,
 maintainAspectRatio:false
 }
-
 }
-
 );
 
 });
 
 
+/* COUNTRY SEARCH */
+
 function loadCountry(){
 
-let country=document.getElementById("countryInput").value;
+let country=document.getElementById("countryInput").value.trim();
 
-fetch(`http://localhost:3000/country-emissions/${country}`)
+const api = window.location.origin + `/country-emissions?country=${encodeURIComponent(country)}`;
 
-.then(res=>res.json())
+fetch(api)
 
-.then(data=>{
+.then(res => res.json())
+
+.then(data => {
+
+updateCountryChart(data);
+updateTable(data);
+
+});
+
+}
+
+
+/* COUNTRY GRAPH */
+
+function updateCountryChart(data){
 
 let years=data.map(d=>d.year);
 let values=data.map(d=>d.emissions);
@@ -232,9 +265,7 @@ let values=data.map(d=>d.emissions);
 if(countryChart) countryChart.destroy();
 
 countryChart=new Chart(
-
 document.getElementById("countryChart"),
-
 {
 type:"bar",
 data:{
@@ -250,21 +281,29 @@ responsive:true,
 maintainAspectRatio:false
 }
 }
-
 );
+
+}
+
+
+/* TABLE */
+
+function updateTable(data){
 
 let table=document.getElementById("dataTable");
 
 table.innerHTML="";
 
 data.forEach(row=>{
-table.innerHTML+=`
-<tr>
+
+let tr=document.createElement("tr");
+
+tr.innerHTML=`
 <td>${row.year}</td>
 <td>${row.emissions}</td>
-</tr>
 `;
-});
+
+table.appendChild(tr);
 
 });
 

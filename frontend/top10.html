@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Top 10 Countries</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f6f5;
+}
+
+header{
+background:#1b4332;
+color:white;
+padding:18px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:30px;
+}
+
+.container{
+padding:50px;
+text-align:center;
+}
+
+.chart-box{
+width:90%;
+max-width:1100px;
+height:480px;
+margin:0 auto 60px auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+position:relative;
+}
+
+canvas{
+width:100% !important;
+height:100% !important;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+
+<h2>🌍 Forest Loss Analytics</h2>
+
+<nav>
+
+<a href="home.html">Home</a>
+<a href="globalloss.html">Global Loss</a>
+<a href="globalemission.html">Global CO₂</a>
+<a href="globalfireloss.html">Global Fire Loss</a>
+<a href="top10.html">Top 10 Countries</a>
+
+</nav>
+
+</header>
+
+
+<div class="container">
+
+<h1>Top 10 Countries Analysis</h1>
+
+
+<div class="chart-box">
+
+<h2>Top 10 Forest Loss Countries</h2>
+
+<canvas id="lossChart"></canvas>
+
+</div>
+
+
+<div class="chart-box">
+
+<h2>Top 10 Fire Loss Countries</h2>
+
+<canvas id="fireChart"></canvas>
+
+</div>
+
+
+<div class="chart-box">
+
+<h2>Top 10 Emission Countries</h2>
+
+<canvas id="emissionChart"></canvas>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* FOREST LOSS */
+
+fetch("/top10-loss")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let countries=data.map(d=>d.country);
+let values=data.map(d=>d.loss);
+
+new Chart(
+
+document.getElementById("lossChart"),
+
+{
+type:"bar",
+
+data:{
+labels:countries,
+
+datasets:[{
+label:"Forest Loss",
+data:values,
+backgroundColor:"#2d6a4f"
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+
+);
+
+});
+
+
+
+/* FIRE LOSS */
+
+fetch("/top10-fire")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let countries=data.map(d=>d.country);
+let values=data.map(d=>d.fire);
+
+new Chart(
+
+document.getElementById("fireChart"),
+
+{
+type:"bar",
+
+data:{
+labels:countries,
+
+datasets:[{
+label:"Fire Loss",
+data:values,
+backgroundColor:"#ff6b35"
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+
+);
+
+});
+
+
+
+/* EMISSIONS */
+
+fetch("/top10-emissions")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let countries=data.map(d=>d.country);
+let values=data.map(d=>d.emissions);
+
+new Chart(
+
+document.getElementById("emissionChart"),
+
+{
+type:"bar",
+
+data:{
+labels:countries,
+
+datasets:[{
+label:"CO₂ Emissions",
+data:values,
+backgroundColor:"#e63946"
+}]
+
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+}
+
+);
+
+});
+
+</script>
+
+</body>
+</html>
