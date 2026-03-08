@@ -70,6 +70,16 @@
   (major1) == 2 && (major2) <  0 || \
   (major1) == 2 && (major2) == 0 && (minor) <= 2)
 #endif /* MIN_VERSION_text */
+/* package wai-3.2.4 */
+#ifndef VERSION_wai
+#define VERSION_wai "3.2.4"
+#endif /* VERSION_wai */
+#ifndef MIN_VERSION_wai
+#define MIN_VERSION_wai(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  2 || \
+  (major1) == 3 && (major2) == 2 && (minor) <= 4)
+#endif /* MIN_VERSION_wai */
 
 /* tool gcc-13 */
 #ifndef TOOL_VERSION_gcc

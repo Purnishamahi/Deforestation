@@ -5,6 +5,8 @@ import qualified Data.ByteString.Lazy as BL
 import Control.Monad.IO.Class (liftIO)
 import Data.List (sortOn, groupBy)
 import qualified Data.Text.Lazy as TL
+import Network.Wai (queryString)
+import Data.Text.Encoding (decodeUtf8)
 import Data.Aeson (object, (.=))
 
 -- split CSV by comma
@@ -30,6 +32,16 @@ groupYear :: [(Int, Double)] -> [(Int, Double)]
 groupYear pairs =
   map (\g -> (fst (head g), sumVals (map snd g)))
       (groupBy (\a b -> fst a == fst b) (sortOn fst pairs))
+
+-- read country from query string
+getCountry :: ActionM String
+getCountry = do
+  req <- request
+  let qs = queryString req
+  let val = lookup "country" qs
+  case val of
+    Just (Just v) -> return (TL.unpack (TL.fromStrict (decodeUtf8 v)))
+    _             -> return ""
 
 main :: IO ()
 main = scotty 3000 $ do
@@ -71,84 +83,53 @@ main = scotty 3000 $ do
   ------------------------------------------------
   get "/global-loss-yearly" $ do
     rows <- liftIO loadRows
-    let pairs =
-          map (\r ->
+    let pairs = map (\r ->
             let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 3) :: Double)) rows
-    let grouped = groupYear pairs
-    json [object ["year" .= y, "loss" .= v] | (y,v) <- grouped]
-
-  get "/global-fire-yearly" $ do
-    rows <- liftIO loadRows
-    let pairs =
-          map (\r ->
-            let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 4) :: Double)) rows
-    let grouped = groupYear pairs
-    json [object ["year" .= y, "fire" .= v] | (y,v) <- grouped]
-
-  get "/global-emissions-yearly" $ do
-    rows <- liftIO loadRows
-    let pairs =
-          map (\r ->
-            let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 5) :: Double)) rows
-    let grouped = groupYear pairs
-    json [object ["year" .= y, "emissions" .= v] | (y,v) <- grouped]
-
-  ------------------------------------------------
-  -- COUNTRY FOREST LOSS
-  ------------------------------------------------
-  get "/country-loss/:country" $ do
-    country <- param "country" :: ActionM String
-    rows <- liftIO loadRows
-    let filtered = filter (\r -> splitComma r !! 1 == country) rows
-    let pairs =
-          map (\r ->
-            let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 3) :: Double)) filtered
+            in (read (c !! 2), read (c !! 3))) rows
     let grouped = groupYear pairs
     json [object ["year" .= y, "loss" .= v] | (y,v) <- grouped]
 
   ------------------------------------------------
-  -- COUNTRY FIRE LOSS
+  -- COUNTRY LOSS
   ------------------------------------------------
-  get "/country-fire/:country" $ do
-    country <- param "country" :: ActionM String
+  get "/country-loss" $ do
+    country <- getCountry
     rows <- liftIO loadRows
     let filtered = filter (\r -> splitComma r !! 1 == country) rows
-    let pairs =
-          map (\r ->
+
+    let pairs = map (\r ->
             let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 4) :: Double)) filtered
+            in (read (c !! 2), read (c !! 3))) filtered
+
+    let grouped = groupYear pairs
+    json [object ["year" .= y, "loss" .= v] | (y,v) <- grouped]
+
+  ------------------------------------------------
+  -- COUNTRY FIRE
+  ------------------------------------------------
+  get "/country-fire" $ do
+    country <- getCountry
+    rows <- liftIO loadRows
+    let filtered = filter (\r -> splitComma r !! 1 == country) rows
+
+    let pairs = map (\r ->
+            let c = splitComma r
+            in (read (c !! 2), read (c !! 4))) filtered
+
     let grouped = groupYear pairs
     json [object ["year" .= y, "fire" .= v] | (y,v) <- grouped]
 
   ------------------------------------------------
   -- COUNTRY EMISSIONS
   ------------------------------------------------
-  get "/country-emissions/:country" $ do
-    country <- param "country" :: ActionM String
+  get "/country-emissions" $ do
+    country <- getCountry
     rows <- liftIO loadRows
     let filtered = filter (\r -> splitComma r !! 1 == country) rows
-    let pairs =
-          map (\r ->
+
+    let pairs = map (\r ->
             let c = splitComma r
-            in (read (c !! 2) :: Int, read (c !! 5) :: Double)) filtered
+            in (read (c !! 2), read (c !! 5))) filtered
+
     let grouped = groupYear pairs
     json [object ["year" .= y, "emissions" .= v] | (y,v) <- grouped]
-
-  ------------------------------------------------
-  -- TOP 10 COUNTRIES
-  ------------------------------------------------
-  get "/top10-loss" $ do
-    rows <- liftIO loadRows
-    let pairs =
-          map (\r ->
-            let c = splitComma r
-            in (c !! 1, read (c !! 3) :: Double)) rows
-    let grouped =
-          map (\g -> (fst (head g), sumVals (map snd g)))
-              (groupBy (\a b -> fst a == fst b) (sortOn fst pairs))
-    let top10 = take 10 (reverse (sortOn snd grouped))
-    json [object ["country" .= c, "loss" .= v] | (c,v) <- top10]

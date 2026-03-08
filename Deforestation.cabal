@@ -73,7 +73,8 @@ executable Deforestation
                       cassava,
                       bytestring,
                       text,
-                      aeson
+                      aeson,
+                      wai
                     
                       
     ghc-options:      -threaded
