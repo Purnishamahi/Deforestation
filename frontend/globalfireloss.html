@@ -6,7 +6,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<<<<<<< HEAD
 <title>Global Fire Loss</title>
+=======
+<title>Global CO₂ Emissions</title>
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -43,17 +47,41 @@ color:#1b4332;
 margin-bottom:40px;
 }
 
+<<<<<<< HEAD
 .global-chart{
 width:90%;
 max-width:1200px;
 height:520px;
+=======
+/* GLOBAL GRAPH */
+
+.global-chart{
+width:1100px;
+height:500px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 margin:auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
+<<<<<<< HEAD
 position:relative;
+=======
+}
+
+/* COUNTRY GRAPH */
+
+.chart-box{
+width:1000px;
+height:450px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:60px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 .search-box{
@@ -73,7 +101,11 @@ border:1px solid #ccc;
 
 button{
 padding:12px 18px;
+<<<<<<< HEAD
 background:#ff6b35;
+=======
+background:#e63946;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 color:white;
 border:none;
 border-radius:6px;
@@ -81,6 +113,7 @@ cursor:pointer;
 }
 
 button:hover{
+<<<<<<< HEAD
 background:#e85a2b;
 }
 
@@ -95,6 +128,11 @@ border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 position:relative;
 }
+=======
+background:#c92d3a;
+}
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 .table-box{
 width:900px;
 margin:auto;
@@ -110,7 +148,11 @@ border-collapse:collapse;
 }
 
 th{
+<<<<<<< HEAD
 background:#ff6b35;
+=======
+background:#e63946;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 color:white;
 padding:12px;
 }
@@ -119,16 +161,22 @@ td{
 padding:12px;
 border-bottom:1px solid #eee;
 }
+<<<<<<< HEAD
 canvas{
 width:100% !important;
 height:100% !important;
 }
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 </style>
 
 </head>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <body>
 
 <header>
@@ -136,32 +184,55 @@ height:100% !important;
 <h2>🌍 Forest Loss Analytics</h2>
 
 <nav>
+<<<<<<< HEAD
 <a href="home.html">Home</a>
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
+=======
+
+<a href="index.html">Home</a>
+<a href="globalloss.html">Global Loss</a>
+<a href="globalemission.html">Global CO₂</a>
+<a href="globalfireloss.html">Global Fire Loss</a>
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </nav>
 
 </header>
 
+<<<<<<< HEAD
 
 <div class="container">
 
 <h1>Global Fire Loss Analysis</h1>
+=======
+<div class="container">
+
+<h1>Global CO₂ Emissions Analysis</h1>
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 
 <div class="global-chart">
 
+<<<<<<< HEAD
 <h2>Global Fire Loss by Year</h2>
+=======
+<h2>Global CO₂ Emissions by Year</h2>
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <canvas id="globalChart"></canvas>
 
 </div>
 
 
+<<<<<<< HEAD
 <h2>Country Level Fire Loss</h2>
+=======
+<h2>Country Level CO₂ Emissions</h2>
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <div class="search-box">
 
@@ -184,10 +255,19 @@ height:100% !important;
 <table>
 
 <thead>
+<<<<<<< HEAD
 <tr>
 <th>Year</th>
 <th>Fire Loss</th>
 </tr>
+=======
+
+<tr>
+<th>Year</th>
+<th>CO₂ Emissions</th>
+</tr>
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </thead>
 
 <tbody id="dataTable"></tbody>
@@ -198,11 +278,15 @@ height:100% !important;
 
 </div>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <script>
 
 let countryChart;
 
+<<<<<<< HEAD
 
 /* GLOBAL GRAPH */
 
@@ -217,15 +301,38 @@ let values = data.map(d => d.fire);
 
 new Chart(
 document.getElementById("globalChart"),
+=======
+/* GLOBAL GRAPH */
+
+fetch("http://localhost:3000/global-emissions-yearly")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let values=data.map(d=>d.emissions);
+
+new Chart(
+
+document.getElementById("globalChart"),
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 {
 type:"bar",
 
 data:{
 labels:years,
 datasets:[{
+<<<<<<< HEAD
 label:"Global Fire Loss",
 data:values,
 backgroundColor:"#ff6b35"
+=======
+label:"Global CO₂ Emissions",
+data:values,
+backgroundColor:"#e63946"
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }]
 },
 
@@ -235,11 +342,16 @@ maintainAspectRatio:false
 }
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 );
 
 });
 
 
+<<<<<<< HEAD
 /* COUNTRY SEARCH */
 
 function loadCountry(){
@@ -268,10 +380,25 @@ function updateCountryChart(data){
 
 let years=data.map(d=>d.year);
 let values=data.map(d=>d.fire);
+=======
+function loadCountry(){
+
+let country=document.getElementById("countryInput").value;
+
+fetch(`http://localhost:3000/country-emissions/${country}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let values=data.map(d=>d.emissions);
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 if(countryChart) countryChart.destroy();
 
 countryChart=new Chart(
+<<<<<<< HEAD
 document.getElementById("countryChart"),
 {
 type:"bar",
@@ -285,10 +412,26 @@ backgroundColor:"#ff9f1c"
 }]
 },
 
+=======
+
+document.getElementById("countryChart"),
+
+{
+type:"bar",
+data:{
+labels:years,
+datasets:[{
+label:"CO₂ Emissions",
+data:values,
+backgroundColor:"#ff6b6b"
+}]
+},
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 options:{
 responsive:true,
 maintainAspectRatio:false
 }
+<<<<<<< HEAD
 
 }
 );
@@ -314,6 +457,23 @@ tr.innerHTML=`
 `;
 
 table.appendChild(tr);
+=======
+}
+
+);
+
+let table=document.getElementById("dataTable");
+table.innerHTML="";
+
+data.forEach(row=>{
+table.innerHTML+=`
+<tr>
+<td>${row.year}</td>
+<td>${row.emissions}</td>
+</tr>
+`;
+});
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 });
 

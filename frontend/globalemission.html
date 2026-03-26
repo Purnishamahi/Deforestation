@@ -29,8 +29,13 @@ align-items:center;
 
 nav a{
 color:white;
+<<<<<<< HEAD
 text-decoration:none;
 margin-left:30px;
+=======
+margin-left:30px;
+text-decoration:none;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 .container{
@@ -38,6 +43,7 @@ padding:60px;
 text-align:center;
 }
 
+<<<<<<< HEAD
 h1{
 color:#1b4332;
 margin-bottom:40px;
@@ -47,13 +53,32 @@ margin-bottom:40px;
 width:90%;
 max-width:1200px;
 height:520px;
+=======
+.global-chart{
+width:1100px;
+height:500px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 margin:auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
+<<<<<<< HEAD
 position:relative;
+=======
+}
+
+.chart-box{
+width:1000px;
+height:450px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:60px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 .search-box{
@@ -80,6 +105,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
+<<<<<<< HEAD
 .chart-box{
 width:90%;
 max-width:1100px;
@@ -104,6 +130,14 @@ box-shadow:0 6px 18px rgba(0,0,0,0.08);
 table{
 width:100%;
 border-collapse:collapse;
+=======
+table{
+width:900px;
+margin:auto;
+border-collapse:collapse;
+background:white;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 th{
@@ -117,11 +151,14 @@ padding:12px;
 border-bottom:1px solid #eee;
 }
 
+<<<<<<< HEAD
 canvas{
 width:100% !important;
 height:100% !important;
 }
 
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </style>
 
 </head>
@@ -138,8 +175,11 @@ height:100% !important;
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
+<<<<<<< HEAD
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </nav>
 
 </header>
@@ -149,6 +189,10 @@ height:100% !important;
 
 <h1>Global CO₂ Emissions Analysis</h1>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <div class="global-chart">
 
 <h2>Global CO₂ Emissions by Year</h2>
@@ -176,8 +220,11 @@ height:100% !important;
 </div>
 
 
+<<<<<<< HEAD
 <div class="table-box">
 
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <table>
 
 <thead>
@@ -191,7 +238,10 @@ height:100% !important;
 
 </table>
 
+<<<<<<< HEAD
 </div>
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 </div>
 
@@ -200,6 +250,7 @@ height:100% !important;
 
 let countryChart;
 
+<<<<<<< HEAD
 
 /* GLOBAL GRAPH */
 
@@ -216,6 +267,26 @@ new Chart(
 document.getElementById("globalChart"),
 {
 type:"bar",
+=======
+/* GLOBAL GRAPH */
+
+fetch("http://localhost:3000/global-emissions-yearly")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let values=data.map(d=>d.emissions);
+
+new Chart(
+
+document.getElementById("globalChart"),
+
+{
+type:"bar",
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 data:{
 labels:years,
 datasets:[{
@@ -224,16 +295,27 @@ data:values,
 backgroundColor:"#e63946"
 }]
 },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 options:{
 responsive:true,
 maintainAspectRatio:false
 }
+<<<<<<< HEAD
 }
+=======
+
+}
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 );
 
 });
 
 
+<<<<<<< HEAD
 /* COUNTRY SEARCH */
 
 function loadCountry(){
@@ -259,6 +341,17 @@ updateTable(data);
 /* COUNTRY GRAPH */
 
 function updateCountryChart(data){
+=======
+function loadCountry(){
+
+let country=document.getElementById("countryInput").value;
+
+fetch(`http://localhost:3000/country-emissions/${country}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 let years=data.map(d=>d.year);
 let values=data.map(d=>d.emissions);
@@ -266,7 +359,13 @@ let values=data.map(d=>d.emissions);
 if(countryChart) countryChart.destroy();
 
 countryChart=new Chart(
+<<<<<<< HEAD
 document.getElementById("countryChart"),
+=======
+
+document.getElementById("countryChart"),
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 {
 type:"bar",
 data:{
@@ -282,6 +381,7 @@ responsive:true,
 maintainAspectRatio:false
 }
 }
+<<<<<<< HEAD
 );
 
 }
@@ -291,11 +391,17 @@ maintainAspectRatio:false
 
 function updateTable(data){
 
+=======
+
+);
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 let table=document.getElementById("dataTable");
 
 table.innerHTML="";
 
 data.forEach(row=>{
+<<<<<<< HEAD
 
 let tr=document.createElement("tr");
 
@@ -305,6 +411,15 @@ tr.innerHTML=`
 `;
 
 table.appendChild(tr);
+=======
+table.innerHTML+=`
+<tr>
+<td>${row.year}</td>
+<td>${row.emissions}</td>
+</tr>
+`;
+});
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 });
 

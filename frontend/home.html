@@ -177,8 +177,11 @@ margin-top:40px;
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
+<<<<<<< HEAD
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
+=======
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 </nav>
 
@@ -215,7 +218,11 @@ and recursive aggregation analytics.
 
 <div class="card" id="loss">
 
+<<<<<<< HEAD
 <img src="https://media.istockphoto.com/id/1171777226/photo/deforested-area-taunus-mountains-germany.webp?a=1&b=1&s=612x612&w=0&k=20&c=rH_7o3tR8Jvm6-Ymw2g96_X6JQ_q0xRBuYAfA7Gmb-A=">
+=======
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <div class="card-content">
 
@@ -239,7 +246,11 @@ logging, agriculture expansion and land-use change.
 
 <div class="card" id="emissions">
 
+<<<<<<< HEAD
 <img src="https://i.pinimg.com/1200x/37/61/f3/3761f3310034b5e06e8eab856a510fab.jpg">
+=======
+<img src="https://images.unsplash.com/photo-1473445730015-841f29a9490b">
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <div class="card-content">
 
@@ -264,7 +275,11 @@ into the atmosphere contributing to global climate change.
 
 <div class="card" id="fire">
 
+<<<<<<< HEAD
 <img src="https://plus.unsplash.com/premium_photo-1770278836110-ee1fdd4e021b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Zm9yZXN0JTIwbG9zc3xlbnwwfHwwfHx8MA%3D%3D">
+=======
+<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 <div class="card-content">
 
@@ -294,41 +309,75 @@ loss and environmental degradation across many regions.
 
 </footer>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <script>
 
 /* GLOBAL LOSS */
 
+<<<<<<< HEAD
 fetch("/global-loss")
 .then(res => res.text())
 .then(data => {
 document.getElementById("lossValue").innerText = data;
 })
 .catch(err => console.log(err));
+=======
+fetch("http://localhost:3000/global-loss")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("lossValue").innerText=data.value
+})
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 
 /* GLOBAL EMISSIONS */
 
+<<<<<<< HEAD
 fetch("/global-emissions")
 .then(res => res.text())
 .then(data => {
 document.getElementById("emissionValue").innerText = data;
 })
 .catch(err => console.log(err));
+=======
+fetch("http://localhost:3000/global-emissions")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("emissionValue").innerText=data.value
+})
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 
 /* GLOBAL FIRE LOSS */
 
+<<<<<<< HEAD
 fetch("/global-fire-loss")
 .then(res => res.text())
 .then(data => {
 document.getElementById("fireValue").innerText = data;
 })
 .catch(err => console.log(err));
+=======
+fetch("http://localhost:3000/global-fire-loss")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("fireValue").innerText=data.value
+})
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 </script>
 
 
+<<<<<<< HEAD
 
 
 </body>
 </html>
+=======
+</body>
+</html>
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06

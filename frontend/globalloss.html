@@ -18,6 +18,11 @@ font-family:Segoe UI;
 background:#f4f6f5;
 }
 
+<<<<<<< HEAD
+=======
+/* HEADER */
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 header{
 background:#1b4332;
 color:white;
@@ -33,6 +38,11 @@ text-decoration:none;
 margin-left:30px;
 }
 
+<<<<<<< HEAD
+=======
+/* PAGE */
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 .container{
 padding:60px;
 text-align:center;
@@ -43,19 +53,38 @@ color:#1b4332;
 margin-bottom:40px;
 }
 
+<<<<<<< HEAD
 .global-chart{
 width:90%;
 max-width:1200px;
 height:520px;
+=======
+h2{
+margin-bottom:25px;
+}
+
+/* GLOBAL GRAPH */
+
+.global-chart{
+width:1100px;
+height:500px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 margin:auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
+<<<<<<< HEAD
 position:relative;
 }
 
+=======
+}
+
+/* SEARCH */
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 .search-box{
 display:flex;
 justify-content:center;
@@ -84,18 +113,33 @@ button:hover{
 background:#1b4332;
 }
 
+<<<<<<< HEAD
 .chart-box{
 width:90%;
 max-width:1100px;
 height:480px;
+=======
+/* COUNTRY GRAPH */
+
+.chart-box{
+width:1000px;
+height:450px;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 margin:0 auto 60px auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
+<<<<<<< HEAD
 position:relative;
 }
 
+=======
+}
+
+/* TABLE */
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 .table-box{
 width:900px;
 margin:auto;
@@ -120,9 +164,15 @@ td{
 padding:12px;
 border-bottom:1px solid #eee;
 }
+<<<<<<< HEAD
 canvas{
 width:100% !important;
 height:100% !important;
+=======
+
+tr:hover{
+background:#f3f7f5;
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 </style>
@@ -132,26 +182,46 @@ height:100% !important;
 
 <body>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <header>
 
 <h2>🌍 Forest Loss Analytics</h2>
 
 <nav>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <a href="home.html">Home</a>
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
+<<<<<<< HEAD
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </nav>
 
 </header>
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <div class="container">
 
 <h1>Global Forest Loss Analysis</h1>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <!-- GLOBAL GRAPH -->
 
 <div class="global-chart">
@@ -163,6 +233,10 @@ height:100% !important;
 </div>
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <!-- COUNTRY SEARCH -->
 
 <h2>Country Level Forest Loss</h2>
@@ -176,6 +250,10 @@ height:100% !important;
 </div>
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <!-- COUNTRY GRAPH -->
 
 <div class="chart-box">
@@ -185,6 +263,10 @@ height:100% !important;
 </div>
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <!-- TABLE -->
 
 <div class="table-box">
@@ -192,10 +274,18 @@ height:100% !important;
 <table>
 
 <thead>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <tr>
 <th>Year</th>
 <th>Forest Loss (ha)</th>
 </tr>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </thead>
 
 <tbody id="dataTable"></tbody>
@@ -204,9 +294,17 @@ height:100% !important;
 
 </div>
 
+<<<<<<< HEAD
 </div>
 
 
+=======
+
+</div>
+
+
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 <script>
 
 let countryChart;
@@ -214,6 +312,7 @@ let countryChart;
 
 /* GLOBAL GRAPH */
 
+<<<<<<< HEAD
 fetch(window.location.origin + "/global-loss-yearly")
 
 .then(res => res.json())
@@ -222,6 +321,16 @@ fetch(window.location.origin + "/global-loss-yearly")
 
 let years = data.map(d => d.year);
 let loss = data.map(d => d.loss);
+=======
+fetch("http://localhost:3000/global-loss-yearly")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+let years=data.map(d=>d.year);
+let loss=data.map(d=>d.loss);
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 new Chart(
 
@@ -231,6 +340,7 @@ document.getElementById("globalChart"),
 type:"bar",
 
 data:{
+<<<<<<< HEAD
 labels:years,
 datasets:[{
 label:"Global Forest Loss",
@@ -242,12 +352,54 @@ backgroundColor:"#52b788"
 options:{
 responsive:true,
 maintainAspectRatio:false
+=======
+
+labels:years,
+
+datasets:[{
+
+label:"Global Forest Loss",
+
+data:loss,
+
+backgroundColor:"#52b788"
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+maintainAspectRatio:false,
+
+scales:{
+
+x:{
+title:{
+display:true,
+text:"Year"
+}
+},
+
+y:{
+title:{
+display:true,
+text:"Forest Loss"
+},
+beginAtZero:true
+}
+
+}
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 }
 
 );
 
+<<<<<<< HEAD
 })
 
 .catch(err=>{
@@ -284,15 +436,40 @@ if(!Array.isArray(data) || data.length === 0){
 alert("No data found for this country");
 return;
 }
+=======
+});
+
+
+/* COUNTRY DATA */
+
+function loadCountry(){
+
+let country=document.getElementById("countryInput").value;
+
+if(!country) return;
+
+fetch(`http://localhost:3000/country-loss/${country}`)
+
+.then(res=>res.json())
+
+.then(data=>{
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 
 updateCountryChart(data);
 updateTable(data);
 
 })
 
+<<<<<<< HEAD
 .catch(err=>{
 console.log(err);
 alert("Backend server error. Make sure the Haskell API is running.");
+=======
+.catch(()=>{
+
+alert("Country not found");
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 });
 
 }
@@ -315,6 +492,7 @@ document.getElementById("countryChart"),
 type:"bar",
 
 data:{
+<<<<<<< HEAD
 labels:years,
 datasets:[{
 label:"Forest Loss",
@@ -326,6 +504,47 @@ backgroundColor:"#40916c"
 options:{
 responsive:true,
 maintainAspectRatio:false
+=======
+
+labels:years,
+
+datasets:[{
+
+label:"Forest Loss",
+
+data:loss,
+
+backgroundColor:"#40916c"
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+maintainAspectRatio:false,
+
+scales:{
+
+x:{
+title:{
+display:true,
+text:"Year"
+}
+},
+
+y:{
+title:{
+display:true,
+text:"Forest Loss"
+},
+beginAtZero:true
+}
+
+}
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 }
 
 }
@@ -360,5 +579,9 @@ table.appendChild(tr);
 
 </script>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 83dd54b87b443203281500ffd31d66b6e8b04a06
 </body>
 </html>
