@@ -98,6 +98,10 @@ main = scotty 3000 $ do
     setHeader "Content-Type" "text/html"
     file "frontend/top10.html"  
 
+  get "/maps.html" $ do
+    setHeader "Content-Type" "text/html"
+    file "frontend/maps.html"
+
 ------------------------------------------------
 -- DATA DOWNLOAD
 ------------------------------------------------
@@ -270,3 +274,39 @@ main = scotty 3000 $ do
     let top10 = take 10 (reverse (sortOn snd grouped))
 
     json [object ["country" .= c, "emissions" .= v] | (c,v) <- top10]
+
+    ------------------------------------------------
+-- MAP DATA (TOTAL PER COUNTRY)
+------------------------------------------------
+
+  get "/map-data" $ do
+    rows <- liftIO loadRows
+
+    let triples =
+          map (\r ->
+            let c = splitComma r
+            in ( c !! 1
+               , read (c !! 3) :: Double
+               , read (c !! 4) :: Double
+               , read (c !! 5) :: Double
+               )
+          ) rows
+
+    let sorted = sortOn (\(c,_,_,_) -> c) triples
+
+    let grouped =
+          map (\g ->
+            let (country,_,_,_) = head g
+                forestSum = sumVals [f | (_,f,_,_) <- g]
+                fireSum   = sumVals [fi | (_,_,fi,_) <- g]
+                co2Sum    = sumVals [co | (_,_,_,co) <- g]
+            in object
+                [ "country" .= country
+                , "forest"  .= forestSum
+                , "fire"    .= fireSum
+                , "co2"     .= co2Sum
+                ]
+          )
+          (groupBy (\(a,_,_,_) (b,_,_,_) -> a == b) sorted)
+
+    json grouped

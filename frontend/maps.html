@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Global Maps</title>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f6f5;
+}
+
+header{
+background:#1b4332;
+color:white;
+padding:18px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:30px;
+}
+
+.container{
+padding:50px;
+text-align:center;
+}
+
+.map-box{
+width:95%;
+max-width:1400px;
+height:800px;
+margin:0 auto 60px auto;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.map{
+width:100%;
+height:720px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>🌍 Forest Loss Analytics</h2>
+
+<nav>
+<a href="home.html">Home</a>
+<a href="globalloss.html">Global Loss</a>
+<a href="globalemission.html">Global CO₂</a>
+<a href="globalfireloss.html">Global Fire Loss</a>
+<a href="top10.html">Top 10 Countries</a>
+<a href="maps.html">Maps</a>
+</nav>
+
+</header>
+
+
+<div class="container">
+
+<h1>Global Maps (Total of All Years)</h1>
+
+<div class="map-box">
+<h2>🌲 Global Forest Loss</h2>
+<div id="map1" class="map"></div>
+</div>
+
+<div class="map-box">
+<h2>🌫️ CO₂ Emissions</h2>
+<div id="map2" class="map"></div>
+</div>
+
+<div class="map-box">
+<h2>🔥 Fire Loss</h2>
+<div id="map3" class="map"></div>
+</div>
+
+</div>
+
+
+<script>
+
+// 🔥 FETCH FROM HASKELL BACKEND
+fetch("/map-data")
+
+.then(res => res.json())
+
+.then(data => {
+
+let totals = {};
+
+// ✅ DIRECT USE (NO NEED TO SUM AGAIN)
+data.forEach(row => {
+totals[row.country] = {
+    forest: row.forest,
+    co2: row.co2,
+    fire: row.fire
+};
+});
+
+let countries = Object.keys(totals);
+
+let forest = countries.map(c => totals[c].forest);
+let co2 = countries.map(c => totals[c].co2);
+let fire = countries.map(c => totals[c].fire);
+
+
+// 🔥 MAP FUNCTION
+function drawMap(id, values, title, type){
+
+let colors;
+
+// 🌲 FOREST
+if(type === "forest"){
+colors = [
+[0, "#f1f8e9"],
+[0.2, "#dcedc8"],
+[0.4, "#aed581"],
+[0.6, "#7cb342"],
+[0.8, "#558b2f"],
+[1, "#33691e"]
+];
+}
+
+// 🌫️ CO2
+else if(type === "co2"){
+colors = [
+[0, "#fde0dc"],
+[0.2, "#f9bdbb"],
+[0.4, "#f69988"],
+[0.6, "#e84a3c"],
+[0.8, "#c62828"],
+[1, "#8e0000"]
+];
+}
+
+// 🔥 FIRE
+else if(type === "fire"){
+colors = [
+[0, "#fff3e0"],
+[0.2, "#ffe0b2"],
+[0.4, "#ffb74d"],
+[0.6, "#fb8c00"],
+[0.8, "#ef6c00"],
+[1, "#e65100"]
+];
+}
+
+Plotly.newPlot(id, [{
+type:'choropleth',
+locations:countries,
+locationmode:'country names',
+z:values,
+colorscale:colors,
+text:countries,
+
+hovertemplate:
+"<b>%{text}</b><br>" +
+title + ": %{z}<extra></extra>",
+
+colorbar:{ title:title }
+
+}],{
+title:title,
+geo:{
+projection:{type:'natural earth'},
+showframe:false,
+showcoastlines:true
+},
+margin:{t:50,l:0,r:0,b:0},
+autosize:true
+},{responsive:true});
+
+
+// 🖱 CLICK EVENT
+document.getElementById(id).on('plotly_click', function(data){
+
+let country = data.points[0].location;
+let info = totals[country];
+
+alert(
+"🌍 " + country +
+"\n\n🌲 Forest Loss: " + info.forest +
+"\n🌫️ CO₂ Emissions: " + info.co2 +
+"\n🔥 Fire Loss: " + info.fire
+);
+
+});
+
+}
+
+
+// DRAW MAPS
+drawMap("map1", forest, "Forest Loss", "forest");
+drawMap("map2", co2, "CO₂ Emissions", "co2");
+drawMap("map3", fire, "Fire Loss", "fire");
+
+})
+
+.catch(err => console.log(err));
+
+</script>
+
+</body>
+</html>
