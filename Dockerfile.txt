@@ -1,1 +1,11 @@
+FROM haskell:latest
 
+WORKDIR /app
+
+COPY . .
+
+RUN cabal update && cabal build
+
+EXPOSE 3000
+
+CMD ["cabal", "run"]
