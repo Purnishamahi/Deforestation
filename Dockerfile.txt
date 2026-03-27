@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN cabal update && cabal build
+RUN cabal update
+RUN cabal build
 
 EXPOSE 3000
 
