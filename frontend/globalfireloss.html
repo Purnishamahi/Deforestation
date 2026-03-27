@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Global Fire Loss</title>
-<title>Global CO₂ Emissions</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -45,12 +44,6 @@ margin-bottom:40px;
 }
 
 .global-chart{
-width:90%;
-max-width:1200px;
-height:520px;
-/* GLOBAL GRAPH */
-
-.global-chart{
 width:1100px;
 height:500px;
 margin:auto;
@@ -59,20 +52,6 @@ padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
-position:relative;
-}
-
-/* COUNTRY GRAPH */
-
-.chart-box{
-width:1000px;
-height:450px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-margin-bottom:60px;
 }
 
 .search-box{
@@ -93,7 +72,6 @@ border:1px solid #ccc;
 button{
 padding:12px 18px;
 background:#ff6b35;
-background:#e63946;
 color:white;
 border:none;
 border-radius:6px;
@@ -105,17 +83,13 @@ background:#e85a2b;
 }
 
 .chart-box{
-width:90%;
-max-width:1100px;
-height:480px;
+width:1000px;
+height:450px;
 margin:0 auto 60px auto;
 background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
-position:relative;
-}
-background:#c92d3a;
 }
 
 .table-box{
@@ -134,7 +108,6 @@ border-collapse:collapse;
 
 th{
 background:#ff6b35;
-background:#e63946;
 color:white;
 padding:12px;
 }
@@ -142,10 +115,6 @@ padding:12px;
 td{
 padding:12px;
 border-bottom:1px solid #eee;
-}
-canvas{
-width:100% !important;
-height:100% !important;
 }
 
 </style>
@@ -166,12 +135,6 @@ height:100% !important;
 <a href="globalfireloss.html">Global Fire Loss</a>
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
-
-<a href="index.html">Home</a>
-<a href="globalloss.html">Global Loss</a>
-<a href="globalemission.html">Global CO₂</a>
-<a href="globalfireloss.html">Global Fire Loss</a>
-
 </nav>
 
 </header>
@@ -180,15 +143,11 @@ height:100% !important;
 <div class="container">
 
 <h1>Global Fire Loss Analysis</h1>
-<div class="container">
-
-<h1>Global CO₂ Emissions Analysis</h1>
 
 
 <div class="global-chart">
 
 <h2>Global Fire Loss by Year</h2>
-<h2>Global CO₂ Emissions by Year</h2>
 
 <canvas id="globalChart"></canvas>
 
@@ -196,7 +155,6 @@ height:100% !important;
 
 
 <h2>Country Level Fire Loss</h2>
-<h2>Country Level CO₂ Emissions</h2>
 
 <div class="search-box">
 
@@ -223,12 +181,6 @@ height:100% !important;
 <th>Year</th>
 <th>Fire Loss</th>
 </tr>
-
-<tr>
-<th>Year</th>
-<th>CO₂ Emissions</th>
-</tr>
-
 </thead>
 
 <tbody id="dataTable"></tbody>
@@ -258,21 +210,6 @@ let values = data.map(d => d.fire);
 
 new Chart(
 document.getElementById("globalChart"),
-/* GLOBAL GRAPH */
-
-fetch("http://localhost:3000/global-emissions-yearly")
-
-.then(res=>res.json())
-
-.then(data=>{
-
-let years=data.map(d=>d.year);
-let values=data.map(d=>d.emissions);
-
-new Chart(
-
-document.getElementById("globalChart"),
-
 {
 type:"bar",
 
@@ -282,9 +219,6 @@ datasets:[{
 label:"Global Fire Loss",
 data:values,
 backgroundColor:"#ff6b35"
-label:"Global CO₂ Emissions",
-data:values,
-backgroundColor:"#e63946"
 }]
 },
 
@@ -294,7 +228,6 @@ maintainAspectRatio:false
 }
 
 }
-
 );
 
 });
@@ -328,18 +261,6 @@ function updateCountryChart(data){
 
 let years=data.map(d=>d.year);
 let values=data.map(d=>d.fire);
-function loadCountry(){
-
-let country=document.getElementById("countryInput").value;
-
-fetch(`http://localhost:3000/country-emissions/${country}`)
-
-.then(res=>res.json())
-
-.then(data=>{
-
-let years=data.map(d=>d.year);
-let values=data.map(d=>d.emissions);
 
 if(countryChart) countryChart.destroy();
 
@@ -357,19 +278,6 @@ backgroundColor:"#ff9f1c"
 }]
 },
 
-
-document.getElementById("countryChart"),
-
-{
-type:"bar",
-data:{
-labels:years,
-datasets:[{
-label:"CO₂ Emissions",
-data:values,
-backgroundColor:"#ff6b6b"
-}]
-},
 options:{
 responsive:true,
 maintainAspectRatio:false
@@ -399,21 +307,6 @@ tr.innerHTML=`
 `;
 
 table.appendChild(tr);
-}
-
-);
-
-let table=document.getElementById("dataTable");
-table.innerHTML="";
-
-data.forEach(row=>{
-table.innerHTML+=`
-<tr>
-<td>${row.year}</td>
-<td>${row.emissions}</td>
-</tr>
-`;
-});
 
 });
 

@@ -18,8 +18,6 @@ font-family:Segoe UI;
 background:#f4f6f5;
 }
 
-/* HEADER */
-
 header{
 background:#1b4332;
 color:white;
@@ -35,8 +33,6 @@ text-decoration:none;
 margin-left:30px;
 }
 
-/* PAGE */
-
 .container{
 padding:60px;
 text-align:center;
@@ -48,16 +44,6 @@ margin-bottom:40px;
 }
 
 .global-chart{
-width:90%;
-max-width:1200px;
-height:520px;
-h2{
-margin-bottom:25px;
-}
-
-/* GLOBAL GRAPH */
-
-.global-chart{
 width:1100px;
 height:500px;
 margin:auto;
@@ -66,12 +52,7 @@ padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 margin-bottom:70px;
-position:relative;
 }
-
-}
-
-/* SEARCH */
 
 .search-box{
 display:flex;
@@ -102,12 +83,6 @@ background:#1b4332;
 }
 
 .chart-box{
-width:90%;
-max-width:1100px;
-height:480px;
-/* COUNTRY GRAPH */
-
-.chart-box{
 width:1000px;
 height:450px;
 margin:0 auto 60px auto;
@@ -115,12 +90,7 @@ background:white;
 padding:30px;
 border-radius:12px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
-position:relative;
 }
-
-}
-
-/* TABLE */
 
 .table-box{
 width:900px;
@@ -146,13 +116,6 @@ td{
 padding:12px;
 border-bottom:1px solid #eee;
 }
-canvas{
-width:100% !important;
-height:100% !important;
-
-tr:hover{
-background:#f3f7f5;
-}
 
 </style>
 
@@ -161,30 +124,25 @@ background:#f3f7f5;
 
 <body>
 
-
 <header>
 
 <h2>🌍 Forest Loss Analytics</h2>
 
 <nav>
-
 <a href="home.html">Home</a>
 <a href="globalloss.html">Global Loss</a>
 <a href="globalemission.html">Global CO₂</a>
 <a href="globalfireloss.html">Global Fire Loss</a>
 <a href="top10.html">Top 10 Countries</a>
 <a href="maps.html">Maps</a>
-
 </nav>
 
 </header>
 
 
-
 <div class="container">
 
 <h1>Global Forest Loss Analysis</h1>
-
 
 <!-- GLOBAL GRAPH -->
 
@@ -195,7 +153,6 @@ background:#f3f7f5;
 <canvas id="globalChart"></canvas>
 
 </div>
-
 
 
 <!-- COUNTRY SEARCH -->
@@ -211,7 +168,6 @@ background:#f3f7f5;
 </div>
 
 
-
 <!-- COUNTRY GRAPH -->
 
 <div class="chart-box">
@@ -221,7 +177,6 @@ background:#f3f7f5;
 </div>
 
 
-
 <!-- TABLE -->
 
 <div class="table-box">
@@ -229,12 +184,10 @@ background:#f3f7f5;
 <table>
 
 <thead>
-
 <tr>
 <th>Year</th>
 <th>Forest Loss (ha)</th>
 </tr>
-
 </thead>
 
 <tbody id="dataTable"></tbody>
@@ -244,11 +197,6 @@ background:#f3f7f5;
 </div>
 
 </div>
-
-
-
-</div>
-
 
 
 <script>
@@ -266,14 +214,6 @@ fetch(window.location.origin + "/global-loss-yearly")
 
 let years = data.map(d => d.year);
 let loss = data.map(d => d.loss);
-fetch("http://localhost:3000/global-loss-yearly")
-
-.then(res=>res.json())
-
-.then(data=>{
-
-let years=data.map(d=>d.year);
-let loss=data.map(d=>d.loss);
 
 new Chart(
 
@@ -294,45 +234,6 @@ backgroundColor:"#52b788"
 options:{
 responsive:true,
 maintainAspectRatio:false
-
-labels:years,
-
-datasets:[{
-
-label:"Global Forest Loss",
-
-data:loss,
-
-backgroundColor:"#52b788"
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-maintainAspectRatio:false,
-
-scales:{
-
-x:{
-title:{
-display:true,
-text:"Year"
-}
-},
-
-y:{
-title:{
-display:true,
-text:"Forest Loss"
-},
-beginAtZero:true
-}
-
-}
-
 }
 
 }
@@ -375,22 +276,6 @@ if(!Array.isArray(data) || data.length === 0){
 alert("No data found for this country");
 return;
 }
-});
-
-
-/* COUNTRY DATA */
-
-function loadCountry(){
-
-let country=document.getElementById("countryInput").value;
-
-if(!country) return;
-
-fetch(`http://localhost:3000/country-loss/${country}`)
-
-.then(res=>res.json())
-
-.then(data=>{
 
 updateCountryChart(data);
 updateTable(data);
@@ -400,10 +285,6 @@ updateTable(data);
 .catch(err=>{
 console.log(err);
 alert("Backend server error. Make sure the Haskell API is running.");
-.catch(()=>{
-
-alert("Country not found");
-
 });
 
 }
@@ -437,45 +318,6 @@ backgroundColor:"#40916c"
 options:{
 responsive:true,
 maintainAspectRatio:false
-
-labels:years,
-
-datasets:[{
-
-label:"Forest Loss",
-
-data:loss,
-
-backgroundColor:"#40916c"
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-maintainAspectRatio:false,
-
-scales:{
-
-x:{
-title:{
-display:true,
-text:"Year"
-}
-},
-
-y:{
-title:{
-display:true,
-text:"Forest Loss"
-},
-beginAtZero:true
-}
-
-}
-
 }
 
 }
@@ -509,7 +351,6 @@ table.appendChild(tr);
 }
 
 </script>
-
 
 </body>
 </html>
